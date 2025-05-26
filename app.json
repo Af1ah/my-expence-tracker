@@ -3,7 +3,6 @@
     "name": "my-expence-tracker",
     "slug": "my-expence-tracker",
     "version": "1.0.0",
-
     "scheme": "my-expence-tracker",
     "web": {
       "bundler": "metro",
@@ -11,6 +10,7 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
+      
       "expo-router",
       [
         "expo-dev-launcher",
@@ -21,28 +21,38 @@
     ],
     "experiments": {
       "typedRoutes": true,
-
       "tsconfigPaths": true
     },
-
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-
     "userInterfaceStyle": "light",
-
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.myexpence.expo"
     },
     "android": {
+      "edgeToEdgeEnabled": false,
+      
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
+      },
+      "package": "com.muhammed_aflah.myexpencetracker"
+    },
+    "extra": {
+      "supabaseUrl": "YOUR_SUPABASE_URL",
+      "supabaseAnonKey": "YOUR_SUPABASE_ANON_KEY",
+      "router": {},
+      "eas": {
+        "projectId": "f2af5ee2-d3a6-4b83-8b1b-7fee94184cb5"
       }
     }
   }
