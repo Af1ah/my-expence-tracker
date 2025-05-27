@@ -3,27 +3,26 @@ import React, { useState } from 'react';
 import {
   View,
   Text,
-  StyleSheet,
   TouchableOpacity,
   TextInput,
-  Image,
   ScrollView,
   Alert,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { useSettings } from '~/src/context/SettingsContext';
-import getStyles from '../styles/mainstyle';
+import { createSettingsStyles } from '../styles/settingsStyles';
+import { useTheme } from '../hooks/useTheme';
 
-export default function ProfileScreen(): React.JSX.Element {
+  export default function ProfileScreen(): React.JSX.Element {
+    const {theme,isDarkMode} = useTheme();
   const navigation = useNavigation();
-  const { isDarkMode } = useSettings();
   const [name, setName] = useState('John Doe');
   const [email, setEmail] = useState('john.doe@example.com');
   const [phone, setPhone] = useState('+1 234 567 8900');
+  const styles = createSettingsStyles(theme);
 
-  const styles = getStyles(isDarkMode);
+  
 
   const handleSave = () => {
     Alert.alert('Success', 'Profile updated successfully!');

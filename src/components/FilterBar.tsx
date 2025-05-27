@@ -3,7 +3,8 @@
 import React from "react";
 import { View, Text, TouchableOpacity, FlatList } from "react-native";
 import { TransactionFilter } from "~/src/types/transaction";
-import styles from "~/src/styles/historyStyles";
+import { useTheme } from "~/src/hooks/useTheme";
+import { createHistoryStyles } from "~/src/styles/historyStyles";
 
 interface FilterBarProps {
   filters: TransactionFilter[];
@@ -16,6 +17,9 @@ export default function FilterBar({
   activeFilter,
   onFilterChange,
 }: FilterBarProps): React.JSX.Element {
+  const { theme } = useTheme();
+  const styles = React.useMemo(() => createHistoryStyles(theme), [theme]);
+
   const renderFilterItem = ({ item }: { item: TransactionFilter }) => (
     <TouchableOpacity
       style={[

@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, Text, Dimensions } from 'react-native';
-import styles from '~/src/styles/analyticsStyles';
+import { View, Text, Dimensions, StyleSheet } from 'react-native';
 
 const { width: screenWidth } = Dimensions.get("window");
 const chartWidth = screenWidth - 32;
@@ -31,7 +30,7 @@ export const SpendingChart: React.FC<SpendingChartProps> = ({ data }) => {
                 styles.chartPoint,
                 {
                   left: left + 20,
-                  bottom: 40,
+                  bottom: 10,
                   height: Math.max(height, 8)
                 }
               ]}
@@ -50,3 +49,43 @@ export const SpendingChart: React.FC<SpendingChartProps> = ({ data }) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  chartContainer: {
+    flex: 1,
+    paddingTop: 16,
+  },
+  chartArea: {
+    height: 160,
+    position: 'relative',
+    backgroundColor: '#F9FAFB',
+    borderRadius: 8,
+    marginBottom: 16,
+    overflow: 'hidden',
+  },
+  chartPoint: {
+    position: 'absolute',
+    width: 6,
+    backgroundColor: 'red',
+    borderRadius: 3,
+    shadowColor: '#4F46E5',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  chartLabels: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  chartLabel: {
+    fontSize: 12,
+    color: '#6B7280',
+    fontWeight: '500',
+    textAlign: 'center',
+    flex: 1,
+  },
+});

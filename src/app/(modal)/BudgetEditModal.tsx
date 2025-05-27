@@ -17,9 +17,9 @@ interface BudgetEditModalProps {
   onClose: () => void;
   onSave: (categoryId: string, newLimit: number) => void;
 }
-    const { formatCurrency } = useFormattedCurrency();
+   
 
-export default function BudgetEditModal({
+function BudgetEditModal({
   visible,
   category,
   onClose,
@@ -46,6 +46,7 @@ export default function BudgetEditModal({
     // Reset input when modal closes
     setNewLimit("");
   };
+   const { formatCurrency } = useFormattedCurrency();
 
   return (
     <Modal
@@ -99,3 +100,5 @@ export default function BudgetEditModal({
     </Modal>
   );
 }
+
+export default BudgetEditModal;

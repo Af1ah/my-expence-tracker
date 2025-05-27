@@ -6,7 +6,10 @@ import { AuthProvider,useAuth } from "../context/AuthContext";
 import { TransactionProvider } from "./../context/TransactionContext";
 import { useNotificationRedirect } from "../providers/NotificationProvider";
 import { SettingsProvider } from "../context/SettingsContext";
-import { NavigationContainer } from "@react-navigation/native";
+import { registerForPushNotificationsAsync } from "../lib/notifications";
+
+import { ThemeProvider } from '~/src/context/ThemeContext';
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 
 
@@ -14,8 +17,12 @@ function RootLayoutNav() {
   const { session, loading } = useAuth();
 
   useEffect(() => {
+    registerForPushNotificationsAsync();
+  }, []);
+
+  useEffect(() => {
     if (!loading && !session) {
-      router.replace("/");
+      router.replace("/login");
     }
   }, [session, loading]);
 
@@ -28,6 +35,7 @@ function RootLayoutNav() {
     <Stack>
       <Stack.Screen name="(tab)" options={{ headerShown: false }} />
       <Stack.Screen name="login" options={{ headerShown: false }} />
+      <Stack.Screen name="signup" options={{ headerShown: false }} />
       <Stack.Screen name="ProfileScreen" options={{ headerShown: false }} />
       <Stack.Screen name="HelpScreen" options={{ headerShown: false }} />
       <Stack.Screen name="SettingsScreen" options={{ headerShown: false }} />
@@ -45,11 +53,13 @@ function RootLayoutNav() {
 }
 
 export default function RootLayout() {
-
   useNotificationRedirect();
 
   return (
-   <SettingsProvider>
+   <SafeAreaProvider className="flex-1 bg-white">
+    {/* <statusbar style="auto" /> */}
+    <ThemeProvider>
+    <SettingsProvider>
      <TransactionProvider>
       <AuthProvider>
         <StatusBar style="auto" />
@@ -57,5 +67,7 @@ export default function RootLayout() {
       </AuthProvider>
     </TransactionProvider>
    </SettingsProvider>
+   </ThemeProvider>
+   </SafeAreaProvider>
   );
 }

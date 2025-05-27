@@ -1,7 +1,6 @@
 import { Text, TouchableOpacity, View } from 'react-native'
 import React, { Component } from 'react'
 import { router } from 'expo-router'
-import styles from '../styles/historyStyles'
 import { MaterialIcons } from '@expo/vector-icons'
 
 export class AddTransactionButton extends Component {

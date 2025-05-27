@@ -20,6 +20,9 @@ export const auth = new GoTrueClient({
   storageKey: "supabase.auth.token", // or any unique key
   storage: AsyncStorage,
   fetch: fetch, // Use native fetch API
+  headers: {
+    apikey: supabaseAnonKey,
+  },
 });
 
 // Initialize Postgrest (Database) client

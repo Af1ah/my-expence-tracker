@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 
-const styles = StyleSheet.create({
+
+const styles = () => StyleSheet.create( {
   container: {
     flex: 1,
     backgroundColor: "#F9FAFB",
@@ -9,10 +10,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: 16,
-    paddingTop: 44,
-    paddingBottom: 16,
-    backgroundColor: "#FFFFFF",
+    
   },
   headerTitle: {
     fontSize: 24,

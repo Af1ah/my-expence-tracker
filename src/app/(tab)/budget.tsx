@@ -15,7 +15,7 @@ import { BudgetCategory, MONTHS } from "~/src/types/types";
 import { CategoryItem, MonthlyBudgetOverview } from "~/src/components/BudgetComponents";
 import BudgetEditModal from "~/src/app/(modal)/BudgetEditModal";
 
-export default function Budget(): React.JSX.Element {
+function Budget(): React.JSX.Element {
   const {
     food,
     shopping,
@@ -199,3 +199,5 @@ export default function Budget(): React.JSX.Element {
     </View>
   );
 }
+
+export default Budget;

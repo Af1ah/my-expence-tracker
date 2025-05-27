@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
-import styles from '~/src/styles/analyticsStyles';
+import { View, Text, StyleSheet } from 'react-native';
 import { useFormattedCurrency } from '~/src/hooks/useFormattedCurrency';
 
 interface CategoryData {
@@ -49,3 +48,58 @@ export const CategoryList: React.FC<CategoryListProps> = ({ categories }) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  categoriesList: {
+    paddingVertical: 8,
+  },
+  categoryItem: {
+    flexDirection: 'column',
+    paddingVertical: 12,
+    paddingHorizontal: 4,
+    borderBottomWidth: 1,
+    borderBottomColor: '#F3F4F6',
+  },
+  categoryInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  categoryColor: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    marginRight: 12,
+  },
+  categoryName: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#111827',
+    flex: 1,
+  },
+  categoryProgress: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  progressBackground: {
+    flex: 1,
+    height: 8,
+    backgroundColor: '#F3F4F6',
+    borderRadius: 4,
+    marginRight: 12,
+    overflow: 'hidden',
+  },
+  progressFill: {
+    height: '100%',
+    borderRadius: 4,
+    minWidth: 4,
+  },
+  categoryAmount: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#374151',
+    minWidth: 80,
+    textAlign: 'right',
+  },
+});

@@ -13,8 +13,9 @@ import { StatusBar } from 'expo-status-bar';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useSettings } from '~/src/context/SettingsContext';
-import getStyles from '../styles/mainstyle';
+import {createSettingsStyles} from '../styles/settingsStyles';
 import { router } from 'expo-router';
+import { useTheme } from '../hooks/useTheme';
 
 const COUNTRIES = [
   { code: 'US', name: 'United States', currency: 'USD', flag: '🇺🇸' },
@@ -27,13 +28,13 @@ const COUNTRIES = [
 ];
 
 export default function SettingsScreen(): React.JSX.Element {
+  const {theme, isDarkMode,toggleTheme} = useTheme();
   const navigation = useNavigation();
-  const { isDarkMode, selectedCountry, toggleDarkMode, setCountry } = useSettings();
+  const {  selectedCountry, setCountry } = useSettings();
   const [showCountryModal, setShowCountryModal] = useState(false);
 
   const selectedCountryData = COUNTRIES.find(c => c.code === selectedCountry) || COUNTRIES[0];
-
-  const styles = getStyles(isDarkMode);
+  const styles = createSettingsStyles(theme);
 
   const renderCountryItem = ({ item }: { item: typeof COUNTRIES[0] }) => (
     <TouchableOpacity
@@ -112,7 +113,7 @@ export default function SettingsScreen(): React.JSX.Element {
             </View>
             <Switch
               value={isDarkMode}
-              onValueChange={toggleDarkMode}
+              onValueChange={toggleTheme}
               trackColor={{ false: '#ccc', true: '#10B981' }}
               thumbColor="#fff"
             />

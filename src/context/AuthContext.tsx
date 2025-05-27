@@ -18,10 +18,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     // Check active sessions and sets the user
-    auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setLoading(false);
-    });
+    auth.getSession()
+      .then(({ data: { session } }) => {
+        setSession(session);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Error getting session:', error.message);
+        setLoading(false);
+      });
 
     // Listen for changes on auth state
     const { data: { subscription } } = auth.onAuthStateChange((_event, session) => {
@@ -32,24 +37,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const signUp = async (email: string, password: string) => {
-    const { error } = await auth.signUp({
+    const { data, error } = await auth.signUp({
       email,
       password,
     });
-    if (error) throw error;
+    if (error) {
+      console.error('Sign-up error:', error.message);
+      throw new Error(`Sign-up failed: ${error.message}`);
+    }
   };
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await auth.signInWithPassword({
+    const { data, error } = await auth.signInWithPassword({
       email,
       password,
     });
-    if (error) throw error;
+    if (error) {
+      console.error('Sign-in error:', error.message);
+      throw new Error(`Sign-in failed: ${error.message}`);
+    }
   };
 
-  const signOut = async () => {
+ const signOut = async () => {
     const { error } = await auth.signOut();
-    if (error) throw error;
+    if (error) {
+      console.error('Sign-out error:', error.message);
+      throw new Error(`Sign-out failed: ${error.message}`);
+    }
   };
 
   const value = {
@@ -69,4 +83,4 @@ export function useAuth() {
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
-} 
+}

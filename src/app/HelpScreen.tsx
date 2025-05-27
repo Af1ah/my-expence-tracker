@@ -10,8 +10,8 @@ import {
 import { StatusBar } from 'expo-status-bar';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { useSettings } from '~/src/context/SettingsContext';
-import getStyles from '../styles/mainstyle';
+import {createSettingsStyles} from '../styles/settingsStyles';
+import { useTheme } from '../hooks/useTheme';
 
 const FAQ_DATA = [
   {
@@ -41,10 +41,12 @@ const FAQ_DATA = [
 ];
 
 export default function HelpScreen(): React.JSX.Element {
-  const navigation = useNavigation();
-  const { isDarkMode } = useSettings();
 
-  const styles = getStyles(isDarkMode);
+  const navigation = useNavigation();
+  const { theme, isDarkMode } = useTheme();
+
+  const styles = createSettingsStyles(theme)
+
 
   const handleContactSupport = () => {
     Linking.openURL('mailto:support@expensetracker.com?subject=Help Request');

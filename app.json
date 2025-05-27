@@ -45,11 +45,11 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.muhammed_aflah.myexpencetracker"
+      "package": "com.myexpence.expo"
     },
     "extra": {
-      "supabaseUrl": "YOUR_SUPABASE_URL",
-      "supabaseAnonKey": "YOUR_SUPABASE_ANON_KEY",
+      "supabaseUrl": "https://rixcbnhaqcfrgngwsocy.supabase.co",
+      "supabaseAnonKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJpeGNibmhhcWNmcmduZ3dzb2N5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDczMDg1NzAsImV4cCI6MjA2Mjg4NDU3MH0.eoV7_y2m807_Xaizmhtj6xVlsRXPt-lbX2W20Pjjt28",
       "router": {},
       "eas": {
         "projectId": "f2af5ee2-d3a6-4b83-8b1b-7fee94184cb5"

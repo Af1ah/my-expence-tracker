@@ -11,7 +11,7 @@ import {
   KeyboardAvoidingView,
   Platform
 } from "react-native";
-import styles from "./../styles/addtransactionStyles"
+import {createAddTransactionStyles} from "./../styles/addTransactionStyles"
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { format } from 'date-fns';
 import { router, useLocalSearchParams } from "expo-router";
@@ -23,10 +23,13 @@ import {
   TransactionType,
 } from "~/src//types/transaction";
 import { useTransactions } from "~/src//context/TransactionContext";
+import { useTheme } from "../hooks/useTheme";
 
 export default function AddTransaction() {
+  const {theme, isDarkMode} = useTheme();
   const params = useLocalSearchParams();
   const isEditMode = params.editMode === "true";
+  const styles = createAddTransactionStyles(theme,);
   
   const [type, setType] = useState<TransactionType>("expense");
   const [amount, setAmount] = useState<string>("");
