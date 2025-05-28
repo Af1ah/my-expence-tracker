@@ -57,7 +57,7 @@ export default function RootLayout() {
 
   return (
    <SafeAreaProvider className="flex-1 bg-white">
-    {/* <statusbar style="auto" /> */}
+    
     <ThemeProvider>
     <SettingsProvider>
      <TransactionProvider>

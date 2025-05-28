@@ -2,7 +2,6 @@ import React from 'react';
 import {
   View,
   Text,
-  StyleSheet,
   TouchableOpacity,
   ScrollView,
   Linking,
@@ -10,8 +9,7 @@ import {
 import { StatusBar } from 'expo-status-bar';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import {createSettingsStyles} from '../styles/settingsStyles';
-import { useTheme } from '../hooks/useTheme';
+import { useTheme } from '../context/ThemeContext';
 
 const FAQ_DATA = [
   {
@@ -41,12 +39,8 @@ const FAQ_DATA = [
 ];
 
 export default function HelpScreen(): React.JSX.Element {
-
   const navigation = useNavigation();
-  const { theme, isDarkMode } = useTheme();
-
-  const styles = createSettingsStyles(theme)
-
+  const { isDarkMode } = useTheme();
 
   const handleContactSupport = () => {
     Linking.openURL('mailto:support@expensetracker.com?subject=Help Request');
@@ -57,11 +51,11 @@ export default function HelpScreen(): React.JSX.Element {
   };
 
   return (
-    <View style={styles.container}>
+    <View className={`flex-1 ${isDarkMode ? 'bg-gray-900' : 'bg-white'}`}>
       <StatusBar style={isDarkMode ? "light" : "dark"} />
       
       {/* Header */}
-      <View style={styles.header}>
+      <View className={`flex-row items-center justify-between px-4 py-4 pt-12 ${isDarkMode ? 'bg-gray-900' : 'bg-white'} border-b ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <MaterialIcons 
             name="arrow-back" 
@@ -69,23 +63,32 @@ export default function HelpScreen(): React.JSX.Element {
             color={isDarkMode ? '#fff' : '#000'} 
           />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Help & Support</Text>
-        <View style={{ width: 24 }} />
+        <Text className={`text-lg font-semibold ${isDarkMode ? 'text-white' : 'text-black'}`}>
+          Help & Support
+        </Text>
+        <View className="w-6" />
       </View>
 
-      <ScrollView style={styles.content}>
+      <ScrollView className="flex-1">
         {/* Quick Actions */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Quick Actions</Text>
+        <View className="px-4 py-6">
+          <Text className={`text-base font-medium mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+            Quick Actions
+          </Text>
           
-          <TouchableOpacity style={styles.actionItem} onPress={handleContactSupport}>
-            <View style={styles.actionLeft}>
+          <TouchableOpacity 
+            className={`flex-row items-center justify-between p-4 rounded-lg mb-3 ${isDarkMode ? 'bg-gray-800' : 'bg-gray-50'}`}
+            onPress={handleContactSupport}
+          >
+            <View className="flex-row items-center">
               <MaterialIcons 
                 name="email" 
                 size={24} 
                 color={isDarkMode ? '#fff' : '#666'} 
               />
-              <Text style={styles.actionText}>Contact Support</Text>
+              <Text className={`ml-3 text-base ${isDarkMode ? 'text-white' : 'text-gray-700'}`}>
+                Contact Support
+              </Text>
             </View>
             <MaterialIcons 
               name="chevron-right" 
@@ -94,14 +97,19 @@ export default function HelpScreen(): React.JSX.Element {
             />
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.actionItem} onPress={handleOpenDocs}>
-            <View style={styles.actionLeft}>
+          <TouchableOpacity 
+            className={`flex-row items-center justify-between p-4 rounded-lg ${isDarkMode ? 'bg-gray-800' : 'bg-gray-50'}`}
+            onPress={handleOpenDocs}
+          >
+            <View className="flex-row items-center">
               <MaterialIcons 
                 name="description" 
                 size={24} 
                 color={isDarkMode ? '#fff' : '#666'} 
               />
-              <Text style={styles.actionText}>Documentation</Text>
+              <Text className={`ml-3 text-base ${isDarkMode ? 'text-white' : 'text-gray-700'}`}>
+                Documentation
+              </Text>
             </View>
             <MaterialIcons 
               name="chevron-right" 
@@ -112,34 +120,59 @@ export default function HelpScreen(): React.JSX.Element {
         </View>
 
         {/* FAQ Section */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Frequently Asked Questions</Text>
+        <View className="px-4 py-6">
+          <Text className={`text-base font-medium mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+            Frequently Asked Questions
+          </Text>
           
           {FAQ_DATA.map((faq, index) => (
-            <View key={index} style={styles.faqItem}>
-              <Text style={styles.faqQuestion}>{faq.question}</Text>
-              <Text style={styles.faqAnswer}>{faq.answer}</Text>
+            <View 
+              key={index} 
+              className={`p-4 rounded-lg mb-3 ${isDarkMode ? 'bg-gray-800' : 'bg-gray-50'}`}
+            >
+              <Text className={`text-base font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                {faq.question}
+              </Text>
+              <Text className={`text-sm leading-5 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                {faq.answer}
+              </Text>
             </View>
           ))}
         </View>
 
         {/* App Info */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>App Information</Text>
+        <View className="px-4 py-6">
+          <Text className={`text-base font-medium mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+            App Information
+          </Text>
           
-          <View style={styles.infoItem}>
-            <Text style={styles.infoLabel}>Version</Text>
-            <Text style={styles.infoValue}>1.0.0</Text>
-          </View>
-          
-          <View style={styles.infoItem}>
-            <Text style={styles.infoLabel}>Last Updated</Text>
-            <Text style={styles.infoValue}>May 2025</Text>
-          </View>
-          
-          <View style={styles.infoItem}>
-            <Text style={styles.infoLabel}>Developer</Text>
-            <Text style={styles.infoValue}>Expense Tracker Team</Text>
+          <View className={`p-4 rounded-lg ${isDarkMode ? 'bg-gray-800' : 'bg-gray-50'}`}>
+            <View className="flex-row justify-between items-center mb-3">
+              <Text className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                Version
+              </Text>
+              <Text className={`text-sm font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                1.0.0
+              </Text>
+            </View>
+            
+            <View className="flex-row justify-between items-center mb-3">
+              <Text className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                Last Updated
+              </Text>
+              <Text className={`text-sm font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                May 2025
+              </Text>
+            </View>
+            
+            <View className="flex-row justify-between items-center">
+              <Text className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                Developer
+              </Text>
+              <Text className={`text-sm font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                Expense Tracker Team
+              </Text>
+            </View>
           </View>
         </View>
       </ScrollView>

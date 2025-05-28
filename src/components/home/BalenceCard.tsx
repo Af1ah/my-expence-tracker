@@ -1,6 +1,7 @@
 import { View, Text, Pressable } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
+import { useTheme } from "~/src/context/ThemeContext";
 
 interface BalanceCardProps {
   balance?: string;
@@ -13,9 +14,15 @@ export default function BalanceCard({
   income = "₹0",
   expense = "₹0",
 }: BalanceCardProps) {
+  const { isDarkMode } = useTheme();
+  
+  const gradientColors = isDarkMode
+    ? ["#1e293b", "#0f172a", "#020617"] // Dark theme gradient
+    : ["#4c66ef", "#3b4fd3", "#2c3dcb"]; // Light theme gradient
+
   return (
     <LinearGradient
-      colors={["#4c66ef", "#3b4fd3", "#2c3dcb"]}
+      colors={gradientColors}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
       className="rounded-3xl shadow-lg m-4 overflow-hidden mb-6"
@@ -27,7 +34,7 @@ export default function BalanceCard({
             Total Balance
           </Text>
           <Text className="text-4xl font-bold text-white my-2">{balance}</Text>
-
+          
           <View className="flex-row items-center mt-1 bg-white/10 self-start px-2 py-1 rounded-full">
             <MaterialIcons name="trending-up" size={14} color="#4ADE80" />
             <Text className="text-sm text-white ml-1 font-medium">
@@ -54,7 +61,7 @@ interface ActionButtonProps {
 
 function ActionButton({ icon, label, sublabel }: ActionButtonProps) {
   return (
-    <Pressable className="bg-white/10 rounded-2xl p-4 flex-1 flex-row items-center m-1 justify-between">
+    <Pressable className="bg-white/10 rounded-2xl p-4 flex-1 flex-row items-center m-1 justify-between active:bg-white/20 transition-colors">
       <View>
         <Text className="text-white font-medium">{label}</Text>
         <Text className="text-white/80 text-xs mt-1">{sublabel}</Text>

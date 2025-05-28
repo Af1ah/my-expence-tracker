@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { PieChart } from "react-native-gifted-charts";
+import { useTheme } from "~/src/context/ThemeContext";
 
 // Pie chart item type
 type PieDataItem = {
@@ -21,31 +22,41 @@ const PerformanceChart: React.FC<PerformanceChartProps> = ({
   title = "Spending",
   data = defaultPieData,
 }) => {
+  const { isDarkMode } = useTheme();
+
   const chartData = data.length > 0 ? data : defaultPieData;
 
-  // Focused item for the center label
   const focusedItem =
     chartData.find((item) => item.focused) || chartData[0] || {
       value: 0,
       label: "N/A",
     };
 
-  // Render dot + label for legend
   const renderLegendItem = (item: PieDataItem, index: number) => (
     <View key={index} className="flex-row items-center m-1">
       <View
         className="h-3 w-3 rounded-full mr-2"
         style={{ backgroundColor: item.color }}
       />
-      <Text className="text-gray-700 text-sm">
+      <Text
+        className={`text-sm ${
+          isDarkMode ? "text-gray-300" : "text-gray-700"
+        }`}
+      >
         {item.label?.toString() || "Unnamed"}: {item.value}%
       </Text>
     </View>
   );
 
   return (
-    <View className="bg-white dark:bg-zinc-900 rounded-xl shadow-sm mx-6 my-4 p-4">
-      <Text className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-2">
+    <View
+      className={`rounded-xl shadow-sm mx-6 my-4 p-4 ${
+        isDarkMode ? "bg-gray-800 text-white" : "bg-white"
+      }`}
+    >
+      <Text
+        className={`text-xl font-bold mb-2 `}
+      >
         {title}
       </Text>
 
@@ -57,13 +68,21 @@ const PerformanceChart: React.FC<PerformanceChartProps> = ({
           sectionAutoFocus
           radius={90}
           innerRadius={60}
-          innerCircleColor={"#FFFFFF"}
+          innerCircleColor={isDarkMode ? "#18181b" : "#FFFFFF"}
           centerLabelComponent={() => (
             <View className="justify-center items-center">
-              <Text className="text-2xl font-bold text-gray-800 dark:text-white">
+              <Text
+                className={`text-2xl font-bold ${
+                  isDarkMode ? "text-white" : "text-gray-800"
+                }`}
+              >
                 {focusedItem.value.toString()}%
               </Text>
-              <Text className="text-base text-gray-500 dark:text-gray-400">
+              <Text
+                className={`text-base ${
+                  isDarkMode ? "text-gray-400" : "text-gray-500"
+                }`}
+              >
                 {focusedItem.label?.toString() || "N/A"}
               </Text>
             </View>
@@ -71,7 +90,6 @@ const PerformanceChart: React.FC<PerformanceChartProps> = ({
         />
       </View>
 
-      {/* Legend */}
       <View className="flex-row flex-wrap justify-around mt-4">
         {chartData.map(renderLegendItem)}
       </View>

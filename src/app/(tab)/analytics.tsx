@@ -17,6 +17,7 @@ import { SpendingChart } from "~/src/components/analytics/SpendingChart";
 import { CategoryList } from "~/src/components/analytics/CategoryList";
 import { router } from "expo-router";
 import { useFormattedCurrency } from "~/src/hooks/useFormattedCurrency";
+import { useTheme } from "~/src/context/ThemeContext";
 
 type ChartPoint = {
   date: string;
@@ -41,8 +42,8 @@ interface InsightItem {
 // Separate Insights Component
 const InsightsCard: React.FC<{ insights: InsightItem[] }> = ({ insights }) => {
  
-    const { formatCurrency } = useFormattedCurrency();
-  
+   const {theme} = useTheme();
+  const styles = getStyles(theme)
 
   if (insights.length === 0) {
     return (
@@ -111,6 +112,8 @@ export default function AnalyticsScreen(): React.JSX.Element {
   const [selectedPeriod, setSelectedPeriod] = useState<string>("month");
   const [monthDate, setMonthDate] = useState(new Date());
   const [showMenu, setShowMenu] = useState(false);
+  const {theme} = useTheme();
+  const styles = getStyles(theme)
 
   const { formatCurrency } = useFormattedCurrency();
 
@@ -276,6 +279,27 @@ export default function AnalyticsScreen(): React.JSX.Element {
     return insightsList;
   }, [topCategories, food, transport, shopping, bills, entertainment, housing, health, other]);
 
+  // Handle menu item clicks
+  const handleMenuItemPress = (action: string) => {
+    setShowMenu(false);
+    
+    switch (action) {
+      case 'settings':
+        router.push("/SettingsScreen");
+        break;
+      case 'help':
+        // Add help navigation here
+        console.log("Help pressed");
+        break;
+      case 'export':
+        // Add export functionality here
+        console.log("Export pressed");
+        break;
+      default:
+        break;
+    }
+  };
+
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
@@ -311,6 +335,7 @@ export default function AnalyticsScreen(): React.JSX.Element {
                 <TouchableOpacity 
                   style={styles.menuButton}
                   onPress={() => setShowMenu(!showMenu)}
+                  activeOpacity={0.7}
                 >
                   <Ionicons name="ellipsis-vertical" size={20} color="#6B7280" />
                 </TouchableOpacity>
@@ -319,31 +344,24 @@ export default function AnalyticsScreen(): React.JSX.Element {
                   <View style={styles.dropdown}>
                     <TouchableOpacity 
                       style={styles.dropdownItem}
-                      onPress={() => {
-                        setShowMenu(false);
-                        router.push("/SettingsScreen");
-                        // Add settings navigation here
-                      }}
+                      onPress={() => handleMenuItemPress('settings')}
+                      activeOpacity={0.7}
                     >
                       <Ionicons name="settings-outline" size={18} color="#6B7280" />
                       <Text style={styles.dropdownText}>Settings</Text>
                     </TouchableOpacity>
                     <TouchableOpacity 
                       style={styles.dropdownItem}
-                      onPress={() => {
-                        setShowMenu(false);
-                        // Add help navigation here
-                      }}
+                      onPress={() => handleMenuItemPress('help')}
+                      activeOpacity={0.7}
                     >
                       <Ionicons name="help-circle-outline" size={18} color="#6B7280" />
                       <Text style={styles.dropdownText}>Help</Text>
                     </TouchableOpacity>
                     <TouchableOpacity 
                       style={styles.dropdownItem}
-                      onPress={() => {
-                        setShowMenu(false);
-                        // Add export functionality here
-                      }}
+                      onPress={() => handleMenuItemPress('export')}
+                      activeOpacity={0.7}
                     >
                       <Ionicons name="download-outline" size={18} color="#6B7280" />
                       <Text style={styles.dropdownText}>Export Data</Text>
@@ -414,19 +432,23 @@ export default function AnalyticsScreen(): React.JSX.Element {
   );
 }
 
-const styles = StyleSheet.create({
+
+
+
+const getStyles = (theme : any) => StyleSheet.create({
+
   container: {
     flex: 1,
-    backgroundColor: '#F9FAFB',
+    backgroundColor: theme.colors.surface,
   },
   loadingContainer: {
     flex: 1,
-    backgroundColor: '#F9FAFB',
+    backgroundColor: theme.colors.surface,
     justifyContent: 'center',
     alignItems: 'center',
   },
   loadingCard: {
-    backgroundColor: 'white',
+    backgroundColor: theme.colors.surface,
     borderRadius: 12,
     padding: 32,
     marginHorizontal: 16,
@@ -474,6 +496,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.05,
     shadowRadius: 2,
     elevation: 2,
+    zIndex: 100, // Added z-index to header
   },
   headerContent: {
     flexDirection: 'row',
@@ -508,32 +531,34 @@ const styles = StyleSheet.create({
   },
   menuContainer: {
     position: 'relative',
+    zIndex: 1000, // Added z-index to menu container
   },
   menuButton: {
     width: 40,
     height: 40,
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: 20,
   },
   dropdown: {
     position: 'absolute',
     top: 48,
     right: 0,
     backgroundColor: 'white',
-    borderRadius: 8,
+    borderRadius: 12,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 4,
+      height: 8,
     },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 8,
+    shadowOpacity: 0.15,
+    shadowRadius: 12,
+    elevation: 20, // Increased elevation for Android
     borderWidth: 1,
-    borderColor: '#F3F4F6',
+    borderColor: '#E5E7EB',
     paddingVertical: 8,
     width: 160,
-    zIndex: 50,
+    zIndex: 9999, // Increased z-index
   },
   dropdownItem: {
     flexDirection: 'row',
@@ -545,6 +570,7 @@ const styles = StyleSheet.create({
     color: '#374151',
     marginLeft: 12,
     fontSize: 14,
+    fontWeight: '400',
   },
   scrollView: {
     flex: 1,

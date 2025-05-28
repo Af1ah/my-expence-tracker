@@ -192,7 +192,6 @@ const styles = () => StyleSheet.create( {
     shadowOpacity: 0.25,
     shadowRadius: 4,
     minWidth: 120,
-    zIndex: 1000,
   },
   dropdownDark: {
     backgroundColor: '#2d2d2d',

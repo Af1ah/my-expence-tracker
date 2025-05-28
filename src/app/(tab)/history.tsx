@@ -15,8 +15,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useTransactions } from "~/src/context/TransactionContext";
 import { TransactionFilter, Transaction } from "~/src/types/transaction";
 import AddTransactionButton from "~/src/components/AddTransactionButton";
-import { useTheme } from "~/src/hooks/useTheme";
 import DateSection from "~/src/components/DateSection";
+import { useTheme } from "~/src/context/ThemeContext";
 
 
 interface FilterBarProps {
@@ -80,7 +80,7 @@ const FilterBar: FC<FilterBarProps> = ({ filters, activeFilter, onFilterChange, 
 
 
 export default function HistoryScreen() {
-  const { theme, isDarkMode, toggleTheme } = useTheme();
+  const {  isDarkMode, toggleTheme } = useTheme();
   const { transactions, isLoading, error, deleteTransaction } = useTransactions();
   const [activeFilter, setActiveFilter] = useState<string>("all");
   const [filteredTransactions, setFilteredTransactions] = useState<Transaction[]>([]);

@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   chartPoint: {
     position: 'absolute',
     width: 6,
-    backgroundColor: 'red',
+    backgroundColor: '#4F46E5', // Changed from 'red' to proper purple color
     borderRadius: 3,
     shadowColor: '#4F46E5',
     shadowOffset: {

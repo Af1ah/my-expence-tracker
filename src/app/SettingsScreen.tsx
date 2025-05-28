@@ -15,7 +15,8 @@ import { useNavigation } from '@react-navigation/native';
 import { useSettings } from '~/src/context/SettingsContext';
 import {createSettingsStyles} from '../styles/settingsStyles';
 import { router } from 'expo-router';
-import { useTheme } from '../hooks/useTheme';
+import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 
 const COUNTRIES = [
   { code: 'US', name: 'United States', currency: 'USD', flag: '🇺🇸' },
@@ -32,6 +33,7 @@ export default function SettingsScreen(): React.JSX.Element {
   const navigation = useNavigation();
   const {  selectedCountry, setCountry } = useSettings();
   const [showCountryModal, setShowCountryModal] = useState(false);
+  const { signOut } = useAuth();
 
   const selectedCountryData = COUNTRIES.find(c => c.code === selectedCountry) || COUNTRIES[0];
   const styles = createSettingsStyles(theme);
@@ -170,6 +172,31 @@ export default function SettingsScreen(): React.JSX.Element {
             />
           </TouchableOpacity>
         </View>
+         {/* loug out button */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Log Out</Text>
+          <TouchableOpacity 
+            style={styles.settingItem}
+            onPress={() => {
+              signOut();
+              
+            }}
+          >
+            <View style={styles.settingLeft}>
+              <MaterialIcons 
+                name="exit-to-app" 
+                size={24} 
+                color={isDarkMode ? '#fff' : '#666'} 
+              />
+              <Text style={styles.settingText}>Log Out</Text>
+            </View>
+            <MaterialIcons 
+              name="chevron-right" 
+              size={24} 
+              color={isDarkMode ? '#fff' : '#666'} 
+            />
+          </TouchableOpacity>
+        </View>
       </ScrollView>
 
       {/* Country Selection Modal */}
@@ -201,4 +228,6 @@ export default function SettingsScreen(): React.JSX.Element {
       </Modal>
     </View>
   );
+
+   
 }

@@ -2,50 +2,9 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ViewStyle, TextStyle } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { CategoryType } from '~/src/types/transaction';
+import { CATEGORY_CONFIG } from '~/src/utils/categoryUtils';
 
-// Category configuration
-export const CATEGORY_CONFIG = {
-  food: { 
-    label: 'Food', 
-    icon: 'fast-food-outline' as keyof typeof Ionicons.glyphMap,
-    color: '#FF6B6B' 
-  },
-  transport: { 
-    label: 'Transport', 
-    icon: 'car-outline' as keyof typeof Ionicons.glyphMap,
-    color: '#4ECDC4' 
-  },
-  bills: { 
-    label: 'Bills', 
-    icon: 'receipt-outline' as keyof typeof Ionicons.glyphMap,
-    color: '#45B7D1' 
-  },
-  shopping: { 
-    label: 'Shopping', 
-    icon: 'cart-outline' as keyof typeof Ionicons.glyphMap,
-    color: '#96CEB4' 
-  },
-  entertainment: { 
-    label: 'Entertainment', 
-    icon: 'musical-notes-outline' as keyof typeof Ionicons.glyphMap,
-    color: '#FECA57' 
-  },
-  housing: { 
-    label: 'Housing', 
-    icon: 'home-outline' as keyof typeof Ionicons.glyphMap,
-    color: '#FF9FF3' 
-  },
-  health: { 
-    label: 'Health', 
-    icon: 'medkit-outline' as keyof typeof Ionicons.glyphMap,
-    color: '#54A0FF' 
-  },
-  other: { 
-    label: 'Other', 
-    icon: 'pricetag-outline' as keyof typeof Ionicons.glyphMap,
-    color: '#5F27CD' 
-  },
-};
+
 
 interface CategorySelectorProps {
   selectedCategory: CategoryType;

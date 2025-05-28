@@ -102,7 +102,7 @@ export const createHistoryStyles = (theme: Theme) => StyleSheet.create({
     marginVertical: theme.spacing.xs,
     padding: theme.spacing.base,
     borderRadius: theme.borderRadius.md,
-    ...theme.shadows.light,
+    ...theme.light,
   },
   iconContainer: {
     width: 40,
@@ -131,7 +131,7 @@ export const createHistoryStyles = (theme: Theme) => StyleSheet.create({
     marginRight: theme.spacing.sm,
   },
   amountText: {
-    fontSize: theme.typography.fontSize.md,
+    fontSize: theme.spacing.md,
     fontWeight: theme.typography.fontWeight.semibold,
     marginBottom: theme.spacing.xs / 2,
   },

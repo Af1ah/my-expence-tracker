@@ -16,17 +16,17 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { format } from 'date-fns';
 import { router, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import CategorySelector from "../components/CategorySelector"; // Import the new component
+import CategorySelector from "../components/history/CategorySelector"; // Import the new component
 import {
   CategoryType,
   Transaction,
   TransactionType,
 } from "~/src//types/transaction";
 import { useTransactions } from "~/src//context/TransactionContext";
-import { useTheme } from "../hooks/useTheme";
+import { useTheme } from "../context/ThemeContext";
 
 export default function AddTransaction() {
-  const {theme, isDarkMode} = useTheme();
+  const { theme, isDarkMode } = useTheme();
   const params = useLocalSearchParams();
   const isEditMode = params.editMode === "true";
   const styles = createAddTransactionStyles(theme,);
