@@ -151,7 +151,7 @@ function Budget(): React.JSX.Element {
     );
   }, []);
 
-  const navigateToAddTransaction = useCallback(() => router.push("./../addtransaction"), [router]);
+  const navigateToAddTransaction = useCallback(() => router.push("./../fixed-expenses"), [router]);
 
   return (
     <View className="flex-1 bg-gray-50">
@@ -160,12 +160,7 @@ function Budget(): React.JSX.Element {
       {/* Header */}
       <View className="flex-row justify-between items-center px-4 pt-12 pb-4 bg-white">
         <Text className="text-2xl font-bold text-gray-800">Budget</Text>
-        <TouchableOpacity
-          className="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center"
-          onPress={navigateToAddTransaction}
-        >
-          <Ionicons name="add" size={24} color="white" />
-        </TouchableOpacity>
+        
       </View>
 
       <ScrollView className="flex-1">
@@ -174,6 +169,22 @@ function Budget(): React.JSX.Element {
           budgetMetrics={budgetMetrics} 
           currentMonth={currentMonth} 
         />
+
+        <TouchableOpacity
+          className="mx-4 mt-4  bg-indigo-600 rounded-xl px-6 py-4 flex-row items-center justify-center shadow-lg active:bg-indigo-700"
+          onPress={navigateToAddTransaction}
+          activeOpacity={0.8}
+        >
+          <Ionicons 
+            name="add-circle-outline" 
+            size={24} 
+            color="white" 
+            style={{ marginRight: 8 }}
+          />
+          <Text className="text-white text-lg font-semibold">
+            Add Fixed Expense
+          </Text>
+        </TouchableOpacity>
 
         {/* Category Breakdown */}
         <Text className="mx-4 mt-6 mb-2 text-lg font-semibold text-gray-800">

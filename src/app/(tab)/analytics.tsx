@@ -41,8 +41,7 @@ interface InsightItem {
 
 // Separate Insights Component
 const InsightsCard: React.FC<{ insights: InsightItem[] }> = ({ insights }) => {
- 
-   const {theme} = useTheme();
+  const {theme} = useTheme();
   const styles = getStyles(theme)
 
   if (insights.length === 0) {
@@ -143,7 +142,6 @@ export default function AnalyticsScreen(): React.JSX.Element {
     other,
   } = useTransactionTotals();
 
- 
   const chartData = useMemo((): ChartPoint[] => {
     switch (selectedPeriod) {
       case "week":
@@ -277,7 +275,7 @@ export default function AnalyticsScreen(): React.JSX.Element {
     }
 
     return insightsList;
-  }, [topCategories, food, transport, shopping, bills, entertainment, housing, health, other]);
+  }, [topCategories, food, transport, shopping, bills, entertainment, housing, health, other, formatCurrency]);
 
   // Handle menu item clicks
   const handleMenuItemPress = (action: string) => {
@@ -288,15 +286,20 @@ export default function AnalyticsScreen(): React.JSX.Element {
         router.push("/SettingsScreen");
         break;
       case 'help':
-        // Add help navigation here
         console.log("Help pressed");
         break;
       case 'export':
-        // Add export functionality here
         console.log("Export pressed");
         break;
       default:
         break;
+    }
+  };
+
+  // Close menu when touching outside
+  const handleOutsidePress = () => {
+    if (showMenu) {
+      setShowMenu(false);
     }
   };
 
@@ -316,127 +319,134 @@ export default function AnalyticsScreen(): React.JSX.Element {
   }
 
   return (
-    <TouchableWithoutFeedback onPress={() => setShowMenu(false)}>
-      <View style={styles.container}>
-        <StatusBar style="dark" />
-        
-        {/* Modern Header */}
-        <View style={styles.header}>
-          <View style={styles.headerContent}>
-            <View style={styles.headerTextContainer}>
-              <Text style={styles.headerTitle}>Analytics</Text>
-              <Text style={styles.headerSubtitle}>Track your spending patterns</Text>
+    <View style={styles.container}>
+      <StatusBar style="dark" />
+      
+      {/* Modern Header - Fixed position */}
+      <View style={styles.header}>
+        <View style={styles.headerContent}>
+          <View style={styles.headerTextContainer}>
+            <Text style={styles.headerTitle}>Analytics</Text>
+            <Text style={styles.headerSubtitle}>Track your spending patterns</Text>
+          </View>
+          <View style={styles.headerActions}>
+            <View style={styles.headerIconContainer}>
+              <Ionicons name="analytics" size={20} color="#4F46E5" />
             </View>
-            <View style={styles.headerActions}>
-              <View style={styles.headerIconContainer}>
-                <Ionicons name="analytics" size={20} color="#4F46E5" />
+            <View style={styles.menuContainer}>
+              <TouchableOpacity 
+                style={styles.menuButton}
+                onPress={() => setShowMenu(!showMenu)}
+                activeOpacity={0.7}
+              >
+                <Ionicons name="ellipsis-vertical" size={20} color="#6B7280" />
+              </TouchableOpacity>
+              
+              {showMenu && (
+                <View style={styles.dropdown}>
+                  <TouchableOpacity 
+                    style={styles.dropdownItem}
+                    onPress={() => handleMenuItemPress('settings')}
+                    activeOpacity={0.7}
+                  >
+                    <Ionicons name="settings-outline" size={18} color="#6B7280" />
+                    <Text style={styles.dropdownText}>Settings</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity 
+                    style={styles.dropdownItem}
+                    onPress={() => handleMenuItemPress('help')}
+                    activeOpacity={0.7}
+                  >
+                    <Ionicons name="help-circle-outline" size={18} color="#6B7280" />
+                    <Text style={styles.dropdownText}>Help</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity 
+                    style={styles.dropdownItem}
+                    onPress={() => handleMenuItemPress('export')}
+                    activeOpacity={0.7}
+                  >
+                    <Ionicons name="download-outline" size={18} color="#6B7280" />
+                    <Text style={styles.dropdownText}>Export Data</Text>
+                  </TouchableOpacity>
+                </View>
+              )}
+            </View>
+          </View>
+        </View>
+      </View>
+
+      {/* Scrollable Content */}
+      <ScrollView 
+        style={styles.scrollView} 
+        contentContainerStyle={styles.scrollViewContent}
+        showsVerticalScrollIndicator={false}
+        bounces={true}
+        scrollEventThrottle={16}
+        removeClippedSubviews={false}
+        keyboardShouldPersistTaps="handled"
+      >
+        <TouchableWithoutFeedback onPress={handleOutsidePress}>
+          <View style={styles.scrollableContent}>
+            {/* Spending Analysis Card */}
+            <View style={styles.card}>
+              <View style={styles.cardHeader}>
+                <Text style={styles.cardTitle}>Spending Analysis</Text>
+                <View style={styles.trendsBadge}>
+                  <Text style={styles.trendsText}>TRENDS</Text>
+                </View>
               </View>
-              <View style={styles.menuContainer}>
-                <TouchableOpacity 
-                  style={styles.menuButton}
-                  onPress={() => setShowMenu(!showMenu)}
-                  activeOpacity={0.7}
-                >
-                  <Ionicons name="ellipsis-vertical" size={20} color="#6B7280" />
-                </TouchableOpacity>
-                
-                {showMenu && (
-                  <View style={styles.dropdown}>
-                    <TouchableOpacity 
-                      style={styles.dropdownItem}
-                      onPress={() => handleMenuItemPress('settings')}
-                      activeOpacity={0.7}
-                    >
-                      <Ionicons name="settings-outline" size={18} color="#6B7280" />
-                      <Text style={styles.dropdownText}>Settings</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity 
-                      style={styles.dropdownItem}
-                      onPress={() => handleMenuItemPress('help')}
-                      activeOpacity={0.7}
-                    >
-                      <Ionicons name="help-circle-outline" size={18} color="#6B7280" />
-                      <Text style={styles.dropdownText}>Help</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity 
-                      style={styles.dropdownItem}
-                      onPress={() => handleMenuItemPress('export')}
-                      activeOpacity={0.7}
-                    >
-                      <Ionicons name="download-outline" size={18} color="#6B7280" />
-                      <Text style={styles.dropdownText}>Export Data</Text>
-                    </TouchableOpacity>
+              <View style={styles.cardContent}>
+                <TimeFilter
+                  selectedPeriod={selectedPeriod}
+                  onPeriodChange={setSelectedPeriod}
+                />
+              </View>
+              <View style={styles.chartContainer}>
+                <SpendingChart data={chartData} />
+              </View>
+            </View>
+
+            {/* Top Categories Card */}
+            <View style={styles.card}>
+              <View style={styles.cardHeader}>
+                <Text style={styles.cardTitle}>Top Categories</Text>
+                <View style={styles.monthBadge}>
+                  <Text style={styles.monthText}>THIS MONTH</Text>
+                </View>
+              </View>
+              <View style={styles.cardContent}>
+                {topCategories.length > 0 ? (
+                  <CategoryList categories={topCategories} />
+                ) : (
+                  <View style={styles.emptyState}>
+                    <Ionicons name="pie-chart-outline" size={32} color="#9CA3AF" />
+                    <Text style={styles.emptyStateText}>No spending data available</Text>
                   </View>
                 )}
               </View>
             </View>
-          </View>
-        </View>
 
-      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-        {/* Spending Analysis Card */}
-        <View style={styles.card}>
-          <View style={styles.cardHeader}>
-            <Text style={styles.cardTitle}>Spending Analysis</Text>
-            <View style={styles.trendsBadge}>
-              <Text style={styles.trendsText}>TRENDS</Text>
-            </View>
-          </View>
-          <View style={styles.cardContent}>
-            <TimeFilter
-              selectedPeriod={selectedPeriod}
-              onPeriodChange={setSelectedPeriod}
-            />
-          </View>
-          <View style={styles.chartContainer}>
-            <SpendingChart data={chartData} />
-          </View>
-        </View>
-
-        {/* Top Categories Card */}
-        <View style={styles.card}>
-          <View style={styles.cardHeader}>
-            <Text style={styles.cardTitle}>Top Categories</Text>
-            <View style={styles.monthBadge}>
-              <Text style={styles.monthText}>THIS MONTH</Text>
-            </View>
-          </View>
-          <View style={styles.cardContent}>
-            {topCategories.length > 0 ? (
-              <CategoryList categories={topCategories} />
-            ) : (
-              <View style={styles.emptyState}>
-                <Ionicons name="pie-chart-outline" size={32} color="#9CA3AF" />
-                <Text style={styles.emptyStateText}>No spending data available</Text>
+            {/* Insights Section */}
+            <View style={styles.insightsSection}>
+              <View style={styles.insightsHeader}>
+                <Text style={styles.insightsSectionTitle}>Smart Insights</Text>
+                <View style={styles.aiBadge}>
+                  <Text style={styles.aiText}>AI POWERED</Text>
+                </View>
               </View>
-            )}
-          </View>
-        </View>
-
-        {/* Insights Section */}
-        <View style={styles.insightsSection}>
-          <View style={styles.insightsHeader}>
-            <Text style={styles.insightsSectionTitle}>Smart Insights</Text>
-            <View style={styles.aiBadge}>
-              <Text style={styles.aiText}>AI POWERED</Text>
+              <InsightsCard insights={insights} />
             </View>
-          </View>
-          <InsightsCard insights={insights} />
-        </View>
 
-        {/* Bottom spacing */}
-        <View style={styles.bottomSpacing} />
+            {/* Bottom spacing */}
+            <View style={styles.bottomSpacing} />
+          </View>
+        </TouchableWithoutFeedback>
       </ScrollView>
     </View>
-    </TouchableWithoutFeedback>
   );
 }
 
-
-
-
-const getStyles = (theme : any) => StyleSheet.create({
-
+const getStyles = (theme: any) => StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: theme.colors.surface,
@@ -484,19 +494,19 @@ const getStyles = (theme : any) => StyleSheet.create({
     fontSize: 18,
   },
   header: {
-    backgroundColor: 'white',
+    backgroundColor: theme.colors.surface,
     paddingTop: 48,
-    paddingBottom: 24,
+    paddingBottom: 16,
     paddingHorizontal: 16,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 1,
+      height: 2,
     },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 2,
-    zIndex: 100, // Added z-index to header
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 4,
+    zIndex: 1000,
   },
   headerContent: {
     flexDirection: 'row',
@@ -509,7 +519,7 @@ const getStyles = (theme : any) => StyleSheet.create({
   headerTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#111827',
+    color: theme.colors.text,
   },
   headerSubtitle: {
     color: '#6B7280',
@@ -531,7 +541,7 @@ const getStyles = (theme : any) => StyleSheet.create({
   },
   menuContainer: {
     position: 'relative',
-    zIndex: 1000, // Added z-index to menu container
+    zIndex: 1001,
   },
   menuButton: {
     width: 40,
@@ -544,7 +554,7 @@ const getStyles = (theme : any) => StyleSheet.create({
     position: 'absolute',
     top: 48,
     right: 0,
-    backgroundColor: 'white',
+    backgroundColor: theme.colors.surface,
     borderRadius: 12,
     shadowColor: '#000',
     shadowOffset: {
@@ -553,12 +563,12 @@ const getStyles = (theme : any) => StyleSheet.create({
     },
     shadowOpacity: 0.15,
     shadowRadius: 12,
-    elevation: 20, // Increased elevation for Android
+    elevation: 25,
     borderWidth: 1,
     borderColor: '#E5E7EB',
     paddingVertical: 8,
     width: 160,
-    zIndex: 9999, // Increased z-index
+    zIndex: 10000,
   },
   dropdownItem: {
     flexDirection: 'row',
@@ -567,7 +577,7 @@ const getStyles = (theme : any) => StyleSheet.create({
     paddingVertical: 12,
   },
   dropdownText: {
-    color: '#374151',
+    color: theme.colors.text,
     marginLeft: 12,
     fontSize: 14,
     fontWeight: '400',
@@ -575,20 +585,26 @@ const getStyles = (theme : any) => StyleSheet.create({
   scrollView: {
     flex: 1,
   },
+  scrollViewContent: {
+    flexGrow: 1,
+    paddingBottom: 24,
+  },
+  scrollableContent: {
+    flex: 1,
+  },
   card: {
-    backgroundColor: 'white',
+    backgroundColor: theme.colors.surface,
     borderRadius: 12,
     marginHorizontal: 16,
     marginTop: 16,
-    marginBottom: 10,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 1,
+      height: 2,
     },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 2,
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3,
   },
   cardHeader: {
     flexDirection: 'row',
@@ -601,7 +617,7 @@ const getStyles = (theme : any) => StyleSheet.create({
   cardTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#111827',
+    color: theme.colors.text,
   },
   trendsBadge: {
     backgroundColor: '#EEF2FF',
@@ -631,6 +647,7 @@ const getStyles = (theme : any) => StyleSheet.create({
   chartContainer: {
     height: 256,
     paddingHorizontal: 16,
+    paddingBottom: 16,
   },
   emptyState: {
     paddingVertical: 32,
@@ -641,7 +658,7 @@ const getStyles = (theme : any) => StyleSheet.create({
     marginTop: 8,
   },
   insightsSection: {
-    marginBottom: 16,
+    marginTop: 16,
   },
   insightsHeader: {
     flexDirection: 'row',
@@ -653,7 +670,7 @@ const getStyles = (theme : any) => StyleSheet.create({
   insightsSectionTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#111827',
+    color: theme.colors.text,
   },
   aiBadge: {
     backgroundColor: '#EFF6FF',
@@ -668,21 +685,20 @@ const getStyles = (theme : any) => StyleSheet.create({
   },
   insightsContainer: {
     marginHorizontal: 16,
-    marginBottom: 16,
   },
   insightCard: {
-    backgroundColor: 'white',
+    backgroundColor: theme.colors.surface,
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 1,
+      height: 2,
     },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 2,
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3,
     borderLeftWidth: 4,
   },
   insightContent: {
@@ -701,7 +717,7 @@ const getStyles = (theme : any) => StyleSheet.create({
     flex: 1,
   },
   insightTitle: {
-    color: '#111827',
+    color: theme.colors.text,
     fontWeight: '600',
     fontSize: 16,
     marginBottom: 4,
@@ -712,19 +728,18 @@ const getStyles = (theme : any) => StyleSheet.create({
     lineHeight: 20,
   },
   insightEmptyCard: {
-    backgroundColor: 'white',
+    backgroundColor: theme.colors.surface,
     borderRadius: 12,
     padding: 16,
     marginHorizontal: 16,
-    marginBottom: 16,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 1,
+      height: 2,
     },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 2,
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3,
   },
   insightEmptyContent: {
     flexDirection: 'row',

@@ -405,7 +405,7 @@ export default function HistoryScreen() {
       }
 
       {/* Floating Action Button */}
-      <AddTransactionButton />
+     
     </View>
   );
 }

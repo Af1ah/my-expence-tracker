@@ -133,17 +133,10 @@ export default function index() {
         />
         <PerformanceChart title="Spending" data={spendingData} />
         
-        {/* Development button - remove in production */}
-        <View className="mx-4 mb-4">
-          <Button
-            title="Show Notification in 5 seconds"
-            onPress={() =>
-              scheduleLocalNotification('Hey Aflah, this is your custom notification!', 5)
-            }
-          />
-        </View>
+      
+       
         
-        <AddTransactionButton />
+        
       </ScrollView>
     </>
   );

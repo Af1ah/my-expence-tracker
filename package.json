@@ -31,6 +31,7 @@
     "expo-dev-client": "~5.1.7",
     "expo-dev-launcher": "^5.0.17",
     "expo-device": "~7.1.4",
+    "expo-image-picker": "~16.1.4",
     "expo-linear-gradient": "~14.1.4",
     "expo-linking": "~7.1.4",
     "expo-notifications": "~0.31.2",
@@ -39,6 +40,8 @@
     "expo-system-ui": "~5.0.7",
     "expo-web-browser": "~14.1.6",
     "formik": "^2.4.6",
+    "lottie-ios": "^4.5.1",
+    "lottie-react-native": "7.2.2",
     "lucide-react": "^0.511.0",
     "nativewind": "latest",
     "react": "19.0.0",
@@ -55,8 +58,7 @@
     "react-native-url-polyfill": "^2.0.0",
     "react-native-web": "^0.20.0",
     "tailwind-merge": "^3.3.0",
-    "yup": "^1.6.1",
-    "expo-image-picker": "~16.1.4"
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

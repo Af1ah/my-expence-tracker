@@ -17,6 +17,7 @@ import {createSettingsStyles} from '../styles/settingsStyles';
 import { router } from 'expo-router';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
+import { reloadAppAsync } from 'expo';
 
 const COUNTRIES = [
   { code: 'US', name: 'United States', currency: 'USD', flag: '🇺🇸' },
@@ -46,7 +47,7 @@ export default function SettingsScreen(): React.JSX.Element {
       ]}
       onPress={() => {
         setCountry(item.code);
-        setShowCountryModal(false);
+         
       }}
     >
       <Text style={styles.countryFlag}>{item.flag}</Text>
@@ -215,7 +216,11 @@ export default function SettingsScreen(): React.JSX.Element {
             <Text style={[styles.modalTitle, { color: isDarkMode ? '#fff' : '#000' }]}>
               Select Country
             </Text>
-            <View style={{ width: 60 }} />
+              <TouchableOpacity onPress={() => reloadAppAsync()}>
+              <Text style={[styles.modalCancel, { color: isDarkMode ? '#fff' : '#007AFF' }]}>
+                Save
+              </Text>
+            </TouchableOpacity>
           </View>
           
           <FlatList
