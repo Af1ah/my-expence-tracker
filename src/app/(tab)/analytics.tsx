@@ -441,7 +441,9 @@ export default function AnalyticsScreen(): React.JSX.Element {
             <View style={styles.bottomSpacing} />
           </View>
         </TouchableWithoutFeedback>
+            <View className="h-24"/>
       </ScrollView>
+      
     </View>
   );
 }

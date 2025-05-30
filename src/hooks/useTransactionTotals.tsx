@@ -1,6 +1,5 @@
 import { useTransactions } from "../context/TransactionContext";
 
-
 type Category =
   | "food"
   | "transport"
@@ -18,9 +17,13 @@ interface Transaction {
   category: Category;
 }
 
-
 export function useTransactionTotals() {
   const { transactions } = useTransactions();
+
+  // Defensive fallback
+  const safeTransactions: Transaction[] = Array.isArray(transactions)
+    ? transactions
+    : [];
 
   let incomeTotal = 0;
   let expenseTotal = 0;
@@ -37,14 +40,14 @@ export function useTransactionTotals() {
     other: 0,
   };
 
-  transactions.forEach((t) => {
+  safeTransactions.forEach((t) => {
     if (t.type === "income") {
       incomeTotal += t.amount;
     } else if (t.type === "expense") {
       expenseTotal += t.amount;
 
-      // ✅ Add to category only if it's an expense
-      if (categoryTotals.hasOwnProperty(t.category)) {
+      // Add to category total
+      if (categoryTotals[t.category] !== undefined) {
         categoryTotals[t.category] += t.amount;
       } else {
         categoryTotals.other += t.amount;

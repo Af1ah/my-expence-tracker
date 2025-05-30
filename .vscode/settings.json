@@ -1,0 +1,4 @@
+{
+    "debug.javascript.codelens.npmScripts": "all",
+    "diffEditor.codeLens": true
+}

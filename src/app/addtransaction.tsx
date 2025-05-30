@@ -26,7 +26,7 @@ import { useTransactions } from "~/src//context/TransactionContext";
 import { useTheme } from "../context/ThemeContext";
 
 export default function AddTransaction() {
-  const { theme, isDarkMode } = useTheme();
+  const { theme } = useTheme();
   const params = useLocalSearchParams();
   const isEditMode = params.editMode === "true";
   const styles = createAddTransactionStyles(theme,);

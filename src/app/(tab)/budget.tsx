@@ -1,6 +1,6 @@
 // BudgetScreen.tsx - Main budget screen component (updated)
 
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import {
   View,
   Text,
@@ -14,6 +14,7 @@ import { useTransactionTotals } from "~/src/hooks/useTransactionTotals";
 import { BudgetCategory, MONTHS } from "~/src/types/types";
 import { CategoryItem, MonthlyBudgetOverview } from "~/src/components/BudgetComponents";
 import BudgetEditModal from "~/src/app/(modal)/BudgetEditModal";
+import { getBudgetCategories, saveBudgetCategories } from "~/src/utils/storage";
 
 function Budget(): React.JSX.Element {
   const {
@@ -30,74 +31,160 @@ function Budget(): React.JSX.Element {
   const router = useRouter();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [selectedCategory, setSelectedCategory] = useState<BudgetCategory | null>(null);
+  const [budgetCategories, setBudgetCategories] = useState<BudgetCategory[]>([]);
 
-  // Initial budget categories derived from transaction data
-  const [budgetCategories, setBudgetCategories] = useState<BudgetCategory[]>([
-    {
-      id: "1",
-      name: "Food",
-      spent:  food,
-      limit: 800,
-      color: "#4F46E5", // Indigo
-      icon: "nutrition-outline",
-    },
-    {
-      id: "2",
-      name: "Transport",
-      spent: transport,
-      limit: 500,
-      color: "#F59E0B", // Amber
-      icon: "car-outline",
-    },
-    {
-      id: "3",
-      name: "Bills",
-      spent: bills,
-      limit: 400,
-      color: "#10B981", // Emerald
-      icon: "document-text-outline",
-    },
-    {
-      id: "4",
-      name: "Shopping",
-      spent: shopping,
-      limit: 300,
-      color: "#EC4899", // Pink
-      icon: "cart-outline",
-    },
-    {
-      id: "5",
-      name: "Entertainment",
-      spent: entertainment,
-      limit: 300,
-      color: "#8B5CF6", // Purple
-      icon: "film-outline",
-    },
-    {
-      id: "6",
-      name: "Housing",
-      spent: housing,
-      limit: 300,
-      color: "#3B82F6", // Blue
-      icon: "home-outline",
-    },
-    {
-      id: "7",
-      name: "Health",
-      spent: health,
-      limit: 300,
-      color: "#F43F5E", // Rose
-      icon: "medkit-outline",
-    },
-    {
-      id: "8",
-      name: "Other",
-      spent: other,
-      limit: 300,
-      color: "#6B7280", // Gray
-      icon: "ellipsis-horizontal-outline",
-    },
-  ]);
+  useEffect(() => {
+    const loadBudgetCategories = async () => {
+      try {
+        const storedBudgetCategories = await getBudgetCategories();
+        if (storedBudgetCategories) {
+          if (storedBudgetCategories.length > 0) {
+            setBudgetCategories(storedBudgetCategories);
+          } else {
+            // Initial budget categories derived from transaction data
+            setBudgetCategories([
+              {
+                id: "1",
+                name: "Food",
+                spent: food,
+                limit: 800,
+                color: "#4F46E5", // Indigo
+                icon: "nutrition-outline",
+              },
+              {
+                id: "2",
+                name: "Transport",
+                spent: transport,
+                limit: 500,
+                color: "#F59E0B", // Amber
+                icon: "car-outline",
+              },
+              {
+                id: "3",
+                name: "Bills",
+                spent: bills,
+                limit: 400,
+                color: "#10B981", // Emerald
+                icon: "document-text-outline",
+              },
+              {
+                id: "4",
+                name: "Shopping",
+                spent: shopping,
+                limit: 300,
+                color: "#EC4899", // Pink
+                icon: "cart-outline",
+              },
+              {
+                id: "5",
+                name: "Entertainment",
+                spent: entertainment,
+                limit: 300,
+                color: "#8B5CF6", // Purple
+                icon: "film-outline",
+              },
+              {
+                id: "6",
+                name: "Housing",
+                spent: housing,
+                limit: 300,
+                color: "#3B82F6", // Blue
+                icon: "home-outline",
+              },
+              {
+                id: "7",
+                name: "Health",
+                spent: health,
+                limit: 300,
+                color: "#F43F5E", // Rose
+                icon: "medkit-outline",
+              },
+              {
+                id: "8",
+                name: "Other",
+                spent: other,
+                limit: 300,
+                color: "#6B7280", // Gray
+                icon: "ellipsis-horizontal-outline",
+              },
+            ]);
+          }
+        } else {
+            // Initial budget categories derived from transaction data
+            setBudgetCategories([
+              {
+                id: "1",
+                name: "Food",
+                spent: food,
+                limit: 800,
+                color: "#4F46E5", // Indigo
+                icon: "nutrition-outline",
+              },
+              {
+                id: "2",
+                name: "Transport",
+                spent: transport,
+                limit: 500,
+                color: "#F59E0B", // Amber
+                icon: "car-outline",
+              },
+              {
+                id: "3",
+                name: "Bills",
+                spent: bills,
+                limit: 400,
+                color: "#10B981", // Emerald
+                icon: "document-text-outline",
+              },
+              {
+                id: "4",
+                name: "Shopping",
+                spent: shopping,
+                limit: 300,
+                color: "#EC4899", // Pink
+                icon: "cart-outline",
+              },
+              {
+                id: "5",
+                name: "Entertainment",
+                spent: entertainment,
+                limit: 300,
+                color: "#8B5CF6", // Purple
+                icon: "film-outline",
+              },
+              {
+                id: "6",
+                name: "Housing",
+                spent: housing,
+                limit: 300,
+                color: "#3B82F6", // Blue
+                icon: "home-outline",
+              },
+              {
+                id: "7",
+                name: "Health",
+                spent: health,
+                limit: 300,
+                color: "#F43F5E", // Rose
+                icon: "medkit-outline",
+              },
+              {
+                id: "8",
+                name: "Other",
+                spent: other,
+                limit: 300,
+                color: "#6B7280", // Gray
+                icon: "ellipsis-horizontal-outline",
+              },
+            ]);
+        }
+      } catch (error) {
+        console.error("Error loading budget categories:", error);
+      }
+    };
+
+    loadBudgetCategories();
+  }, [food, shopping, transport, housing, health, other, bills, entertainment]);
 
   // Calculate total budget metrics
   const budgetMetrics = useMemo(() => {
@@ -142,13 +229,15 @@ function Budget(): React.JSX.Element {
   }, []);
 
   const saveBudgetLimit = useCallback((categoryId: string, newLimit: number) => {
-    setBudgetCategories(prev => 
-      prev.map(cat =>
+    setBudgetCategories(prev => {
+      const updatedCategories = prev.map(cat =>
         cat.id === categoryId
           ? { ...cat, limit: newLimit }
           : cat
-      )
-    );
+      );
+      saveBudgetCategories(updatedCategories);
+      return updatedCategories;
+    });
   }, []);
 
   const navigateToAddTransaction = useCallback(() => router.push("./../fixed-expenses"), [router]);
@@ -198,6 +287,8 @@ function Budget(): React.JSX.Element {
             onPress={openEditModal} 
           />
         ))}
+              <View className="h-24"/>
+        
       </ScrollView>
 
       {/* Edit Budget Modal */}

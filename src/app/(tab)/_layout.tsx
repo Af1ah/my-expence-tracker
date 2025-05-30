@@ -1,13 +1,11 @@
-import { Tabs } from "expo-router";
+import { Tabs , router } from "expo-router";
 import React from "react";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons , MaterialIcons } from "@expo/vector-icons";
 import { TransactionProvider } from "~/src/context/TransactionContext";
 import { SettingsProvider } from "~/src/context/SettingsContext";
 import { ThemeProvider, useTheme } from "~/src/context/ThemeContext";
 import { FixedExpenseProvider } from "~/src/context/FixedExpensesContext";
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
-import { router } from 'expo-router';
 
 function TabNavigator() {
   const { theme } = useTheme();
@@ -118,6 +116,8 @@ function TabNavigator() {
           <MaterialIcons name="add" size={28} color="#fff" />
         </TouchableOpacity>
       </View>
+           
+      
     </>
   );
 }

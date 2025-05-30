@@ -1,7 +1,9 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Transaction } from "../types/transaction";
+import { BudgetCategory } from "../types/types";
 
 const TRANSACTIONS_STORAGE_KEY = "@budgetapp_transactions";
+const BUDGET_CATEGORIES_STORAGE_KEY = "@budgetapp_budgetCategories";
 
 export const saveTransaction = async (
   transaction: Transaction,
@@ -124,5 +126,34 @@ export const clearAllTransactions = async (): Promise<void> => {
   } catch (error) {
     console.error("Error clearing transactions:", error);
     throw new Error("Failed to clear transactions");
+  }
+};
+
+export const saveBudgetCategories = async (
+  budgetCategories: BudgetCategory[],
+): Promise<void> => {
+  try {
+    await AsyncStorage.setItem(
+      BUDGET_CATEGORIES_STORAGE_KEY,
+      JSON.stringify(budgetCategories),
+    );
+  } catch (error) {
+    console.error("Error saving budget categories:", error);
+    throw new Error("Failed to save budget categories");
+  }
+};
+
+export const getBudgetCategories = async (): Promise<BudgetCategory[]> => {
+  try {
+    const budgetCategoriesJSON = await AsyncStorage.getItem(
+      BUDGET_CATEGORIES_STORAGE_KEY,
+    );
+    if (budgetCategoriesJSON) {
+      return JSON.parse(budgetCategoriesJSON);
+    }
+    return [];
+  } catch (error) {
+    console.error("Error getting budget categories:", error);
+    throw new Error("Failed to retrieve budget categories");
   }
 };

@@ -14,7 +14,6 @@ import { router } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useTransactions } from "~/src/context/TransactionContext";
 import { TransactionFilter, Transaction } from "~/src/types/transaction";
-import AddTransactionButton from "~/src/components/AddTransactionButton";
 import DateSection from "~/src/components/DateSection";
 import { useTheme } from "~/src/context/ThemeContext";
 
@@ -26,20 +25,7 @@ interface FilterBarProps {
   isDark: boolean;
 }
 
-interface TransactionItemProps {
-  transaction: Transaction;
-  onEdit: (t: Transaction) => void;
-  onDelete: (id: string) => void;
-  isDark: boolean;
-}
 
-interface DateSectionProps {
-  date: string;
-  transactions: Transaction[];
-  onEditTransaction: (t: Transaction) => void;
-  onDeleteTransaction: (id: string) => void;
-  isDark: boolean;
-}
 
 // Enhanced FilterBar Component
 // ✅ FilterBar Component
@@ -73,6 +59,8 @@ const FilterBar: FC<FilterBarProps> = ({ filters, activeFilter, onFilterChange, 
             </Text>
           </TouchableOpacity>
         ))}
+
+     
       </ScrollView>
     </View>
   );
@@ -404,7 +392,7 @@ export default function HistoryScreen() {
       
       }
 
-      {/* Floating Action Button */}
+       <View className="h-24"/>
      
     </View>
   );

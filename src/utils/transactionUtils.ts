@@ -201,11 +201,11 @@ export const CATEGORY_CONFIGS: Record<CategoryType, CategoryConfig> = {
     icon: MaterialIcons,
     color: "#F43F5E",
   },
-  income: {
-    label: "Health",
-    icon: MaterialIcons,
-    color: "#F43F5E",
-  },
+  // income: {
+  //   label: "Health",
+  //   icon: MaterialIcons,
+  //   color: "#F43F5E",
+  // },
   other: {
     label: "Other",
     icon: MaterialIcons,

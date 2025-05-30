@@ -5,8 +5,6 @@ import { StatusBar } from 'expo-status-bar';
 import BalanceCard from '~/src/components/home/BalenceCard';
 import PerformanceChart from '~/src/components/home/PieChartCard';
 import { useTransactionTotals } from '~/src/hooks/useTransactionTotals';
-import AddTransactionButton from '~/src/components/AddTransactionButton';
-import { scheduleLocalNotification } from '~/src/lib/notifications';
 import { useFormattedCurrency } from '~/src/hooks/useFormattedCurrency';
 import { useAuth } from '~/src/context/AuthContext';
 import { Ionicons } from '@expo/vector-icons';
@@ -137,7 +135,9 @@ export default function index() {
        
         
         
+            <View className="h-24"/>
       </ScrollView>
+      
     </>
   );
 }

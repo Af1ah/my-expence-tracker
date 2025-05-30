@@ -4,9 +4,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { setStatusBarStyle } from 'expo-status-bar';
 import * as SystemUI from 'expo-system-ui';
 
-type ThemeMode = 'light' | 'dark' | 'system';
-
 import { lightTheme, darkTheme, Theme } from '../theme';
+
+type ThemeMode = 'light' | 'dark' | 'system';
 
 interface ThemeContextType {
   isDarkMode: boolean;

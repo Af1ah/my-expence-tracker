@@ -11,6 +11,7 @@ import { registerForPushNotificationsAsync } from "../lib/notifications";
 import { ThemeProvider } from '~/src/context/ThemeContext';
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { FixedExpenseProvider } from "../context/FixedExpensesContext";
+import { Platform } from "react-native";
 
 // Onboarding Context
 interface OnboardingContextType {
@@ -20,6 +21,9 @@ interface OnboardingContextType {
   setHasCompletedOnboarding: (value: boolean) => void;
   isOnboardingLoading: boolean;
 }
+
+
+
 
 const OnboardingContext = createContext<OnboardingContextType>({
   isFirstLaunch: null,
@@ -166,9 +170,10 @@ export default function RootLayout() {
   useNotificationRedirect();
 
   return (
-    <FixedExpenseProvider>
+    <ThemeProvider>
+      <FixedExpenseProvider>
       <SafeAreaProvider className="flex-1 bg-white">
-        <ThemeProvider>
+        
           <SettingsProvider>
             <TransactionProvider>
               <AuthProvider>
@@ -179,8 +184,9 @@ export default function RootLayout() {
               </AuthProvider>
             </TransactionProvider>
           </SettingsProvider>
-        </ThemeProvider>
+        
       </SafeAreaProvider>
     </FixedExpenseProvider>
+    </ThemeProvider>
   );
 }
